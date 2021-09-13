@@ -1,7 +1,8 @@
-import { SET_FORECAST } from './actionTypes';
+import { SET_FORECAST, SET_SEARCH_RESULTS } from './actionTypes';
 
 const initialState = {
   forecast: null,
+  searchResults: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -12,6 +13,11 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         forecast: payload,
+      };
+    case SET_SEARCH_RESULTS:
+      return {
+        ...state,
+        searchResults: [...payload],
       };
     default:
       return state;

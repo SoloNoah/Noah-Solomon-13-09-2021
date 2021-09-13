@@ -1,22 +1,37 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { setForecast } from '../../store/actions';
+import WeatcherSearch from './WeatcherSearch';
+import WeatherList from './WeatherList';
 
-const WeatherMain = ({ forecast, setForecast }) => {
+import { setForecast, setSearchResults } from '../../store/actions';
+
+const WeatherMain = ({ searchResults, forecast, setSearchResults, setForecast }) => {
+  const onCitySearch = async (city) => {
+    let res = await setSearchResults(city);
+    setForecast(res[0].Key);
+  };
+
   useEffect(() => {
-    setForecast('215854'); //setting here by default for now
+    setForecast('215854');
   }, []);
 
-  return <>{!forecast ? <div>Loading...</div> : <div>Got the data</div>}</>;
+  return (
+    <>
+      <WeatcherSearch onCitySearch={onCitySearch} />
+      {!forecast ? <div>Loading...</div> : <WeatherList searchResults={searchResults} forecast={forecast} />}
+    </>
+  );
 };
 
 const mapStateToProps = (state) => ({
+  searchResults: state.root.searchResults,
   forecast: state.root.forecast,
 });
 
 const mapDispatchToProps = {
   setForecast,
+  setSearchResults,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeatherMain);

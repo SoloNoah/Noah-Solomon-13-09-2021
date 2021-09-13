@@ -1,1 +1,2 @@
 export const SET_FORECAST = 'SET_FORECAST';
+export const SET_SEARCH_RESULTS = 'SET_SEARCH_RESULTS';

@@ -1,5 +1,6 @@
 // JSON imports
 import FIVE_DAYFORECAST_DATA from '../dummy-data/5dayforcast.json';
+import LOCATIONS from '../dummy-data/default-location.json';
 
 import axios from 'axios';
 const API_KEY = 'tPldUTKSv7z2ARd48H295HMusATWIkEP';
@@ -14,18 +15,29 @@ const loadForecast = async (city) => {
     apikey: API_KEY,
   };
   try {
-    if (!localStorage.getItem('forecast')) {
-      // const res = await axios.get(requestPath, { params });
-      // const data = await res.data;
-      const data = [...FIVE_DAYFORECAST_DATA]; //DELETE THIS AFTERWARDS. SENDING REQUEST TO API WORKS
-      localStorage.setItem('forecast', JSON.stringify(data[0]));
-      return data;
-    }
-    const paresedForecast = JSON.parse(localStorage.getItem('forecast'));
-    return paresedForecast;
+    // const res = await axios.get(requestPath, { params });
+    // const data = await res.data;
+    // return data;
+
+    const data = [...FIVE_DAYFORECAST_DATA]; //DELETE THIS AFTERWARDS. SENDING REQUEST TO API WORKS
+    return data[0]; //remove
   } catch (error) {
-    console.log(error);
+    console.log(error); //Return error and display with toast
   }
 };
 
-export default { loadForecast };
+const loadWeather = async (city) => {
+  const requestPath = BASE_URL.concat(AUTOCOMPLETE);
+  const params = {
+    apikey: API_KEY,
+    q: city,
+  };
+
+  // const res = await axios.get(requestPath, { params });
+  // const locations = await res.data;
+  const locations = [...LOCATIONS]; //remove
+  const filteredData = locations.filter((location) => location.LocalizedName.includes(city));
+  return filteredData;
+};
+
+export default { loadForecast, loadWeather };

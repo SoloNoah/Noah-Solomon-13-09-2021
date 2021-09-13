@@ -1,9 +1,11 @@
-import { SET_FORECAST } from './actionTypes';
+import { SET_FORECAST, SET_SEARCH_RESULTS } from './actionTypes';
 import weatherService from '../services/weatherService';
 
 export const setForecast = (value) => async (dispatch) => {
   try {
+    console.log(value);
     const res = await weatherService.loadForecast(value);
+    console.log(res);
     dispatch({
       type: SET_FORECAST,
       payload: res,
@@ -13,10 +15,15 @@ export const setForecast = (value) => async (dispatch) => {
   }
 };
 
-export const func = () => (dispatch) => {
+export const setSearchResults = (city) => async (dispatch) => {
   try {
-    //some code
-  } catch (error) {
-    //     console.log(error);
+    const res = await weatherService.loadWeather(city);
+    dispatch({
+      type: SET_SEARCH_RESULTS,
+      payload: res,
+    });
+    return res;
+  } catch (err) {
+    console.log(err);
   }
 };
