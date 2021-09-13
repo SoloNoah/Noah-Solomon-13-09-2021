@@ -1,0 +1,23 @@
+{
+  "LocalObservationDateTime": "2021-09-13T10:20:00+03:00",
+  "EpochTime": 1631517600,
+  "WeatherText": "Sunny",
+  "WeatherIcon": 1,
+  "HasPrecipitation": false,
+  "PrecipitationType": null,
+  "IsDayTime": true,
+  "Temperature": {
+    "Metric": {
+      "Value": 29.5,
+      "Unit": "C",
+      "UnitType": 17
+    },
+    "Imperial": {
+      "Value": 85.0,
+      "Unit": "F",
+      "UnitType": 18
+    }
+  },
+  "MobileLink": "http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us",
+  "Link": "http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us"
+}

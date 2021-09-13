@@ -1,13 +1,12 @@
-import { SOME_CONST } from './actionTypes';
+import { SET_FORECAST } from './actionTypes';
+import weatherService from '../services/weatherService';
 
-export const funcAsync = (value) => (dispatch) => {
+export const setForecast = (value) => async (dispatch) => {
   try {
-    //some code here
-    console.log('setting');
-
+    const res = await weatherService.loadForecast(value);
     dispatch({
-      type: SOME_CONST,
-      payload: value,
+      type: SET_FORECAST,
+      payload: res,
     });
   } catch (error) {
     console.log(error);

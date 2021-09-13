@@ -1,17 +1,17 @@
-import { SOME_CONST } from './actionTypes';
+import { SET_FORECAST } from './actionTypes';
 
 const initialState = {
-  string: '',
+  forecast: null,
 };
 
 export default function reducer(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case SOME_CONST:
+    case SET_FORECAST:
       return {
         ...state,
-        string: payload,
+        forecast: payload,
       };
     default:
       return state;
