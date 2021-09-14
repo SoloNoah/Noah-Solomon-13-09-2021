@@ -21,7 +21,7 @@ const WeatherMain = ({ searchResults, forecast, setSearchResults, setForecast, s
     if (chosenCity !== null) {
       const localStorageFav = localStorage.getItem('likes');
       setLikeState(() => {
-        return localStorageFav.includes(chosenCity);
+        return localStorageFav?.includes(chosenCity);
       });
     }
   }, [chosenCity]);

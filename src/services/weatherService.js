@@ -40,4 +40,12 @@ const loadWeather = async (city) => {
   return filteredData;
 };
 
-export default { loadForecast, loadWeather };
+const loadCurrentData = (city) => {
+  const requestPath = BASE_URL.concat(CURRENT, city);
+  const params = {
+    apikey: API_KEY,
+  };
+  return axios.get(requestPath, { params });
+};
+
+export default { loadForecast, loadWeather, loadCurrentData };

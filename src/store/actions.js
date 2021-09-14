@@ -46,3 +46,9 @@ export const manageFavorites = (favLocation) => (dispatch) => {
     console.log("Couldn't set like for location");
   }
 };
+
+export const setCurrentDayData = (city) => async (dispatch) => {
+  try {
+    const res = await weatherService.loadWeather(city);
+  } catch (error) {}
+};
