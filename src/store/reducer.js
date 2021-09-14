@@ -1,8 +1,9 @@
-import { SET_FORECAST, SET_SEARCH_RESULTS } from './actionTypes';
+import { SET_FORECAST, SET_SEARCH_RESULTS, SET_LIKES_ONLOAD, MANAGE_FAVORITE } from './actionTypes';
 
 const initialState = {
   forecast: null,
   searchResults: [],
+  favorites: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -19,6 +20,26 @@ export default function reducer(state = initialState, action) {
         ...state,
         searchResults: [...payload],
       };
+    case SET_LIKES_ONLOAD:
+      return {
+        ...state,
+        favorites: payload,
+      };
+    case MANAGE_FAVORITE:
+      for (const index in state.favorites) {
+        if (state.favorites[index] === payload) {
+          let updatedLikes = state.favorites.filter((likedObj) => likedObj !== payload);
+          localStorage.setItem('likes', JSON.stringify(updatedLikes));
+          return { ...state, favorites: updatedLikes };
+        }
+      }
+      const likeStateUpdate = [...state.favorites, payload];
+      localStorage.setItem('likes', JSON.stringify(likeStateUpdate));
+      return {
+        ...state,
+        favorites: [...state.favorites, payload],
+      };
+
     default:
       return state;
   }
