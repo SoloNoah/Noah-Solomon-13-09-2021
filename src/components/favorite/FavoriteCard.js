@@ -1,16 +1,16 @@
 import React from 'react';
 
-const FavoriteCard = ({ data }) => {
-  console.log(data);
+const FavoriteCard = ({ data, cityName }) => {
   const { Temperature, WeatherText } = data.data[0];
   const { Value, Unit } = Temperature.Metric;
-  console.log(Temperature);
   return (
     <div>
-      <h1>
+      <h1>{cityName}</h1>
+      <h2>
         {Value} {Unit}
-      </h1>
-      <h1>{WeatherText}</h1>
+      </h2>
+      <h2>{WeatherText}</h2>
+      <hr></hr>
     </div>
   );
 };

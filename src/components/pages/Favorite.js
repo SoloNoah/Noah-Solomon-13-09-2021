@@ -26,8 +26,8 @@ const Favorite = () => {
     <>
       {favoritesData.length > 0 ? (
         <ul>
-          {favoritesData.map((favLocation, index) => (
-            <FavoriteCard key={index} data={favLocation} />
+          {favorites.map((favId, index) => (
+            <FavoriteCard key={index} data={favoritesData[index]} cityName={favId.LocalizedName} />
           ))}
         </ul>
       ) : (
