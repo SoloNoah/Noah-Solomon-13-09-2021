@@ -47,8 +47,4 @@ export const manageFavorites = (favLocation) => (dispatch) => {
   }
 };
 
-export const setCurrentDayData = (city) => async (dispatch) => {
-  try {
-    const res = await weatherService.loadWeather(city);
-  } catch (error) {}
-};
+

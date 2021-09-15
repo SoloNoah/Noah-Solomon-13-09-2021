@@ -4,31 +4,32 @@ import { connect } from 'react-redux';
 import WeatcherSearch from './WeatcherSearch';
 import WeatherList from './WeatherList';
 
-import { manageFavorites, setForecast, setSearchResults, setLikesOnLoad } from '../../store/actions';
+import { manageFavorites, setForecast, setLikesOnLoad } from '../../store/actions';
 
-const WeatherMain = ({ searchResults, forecast, setSearchResults, setForecast, setLikesOnLoad, manageFavorites }) => {
-  const defaultCity = '215854';
-  const [chosenCity, setCity] = useState(defaultCity);
+const WeatherMain = ({ searchResults, forecast, setForecast, setLikesOnLoad, manageFavorites }) => {
+  const defaultCity = { Key: '215854', LocalizedName: 'Tel Aviv' };
+  const [chosenCity, setChoesenCity] = useState(defaultCity);
   const [likeState, setLikeState] = useState();
 
-  const onCitySearch = async (city) => {
-    let res = await setSearchResults(city);
-    setCity(res[0].Key);
-    setForecast(res[0].Key);
+  const onCitySubmit = async (city) => {
+    const { Key, LocalizedName } = city;
+    const newStateCity = { Key, LocalizedName };
+    setChoesenCity(newStateCity);
   };
 
   useEffect(() => {
     if (chosenCity !== null) {
       const localStorageFav = localStorage.getItem('likes');
       setLikeState(() => {
-        return localStorageFav?.includes(chosenCity);
+        return localStorageFav?.includes(chosenCity.Key);
       });
+      setForecast(chosenCity.Key);
     }
   }, [chosenCity]);
 
   useEffect(() => {
     setLikesOnLoad();
-    setForecast(chosenCity);
+    setForecast(chosenCity.Key);
   }, []);
 
   const onLikeClicked = () => {
@@ -38,12 +39,13 @@ const WeatherMain = ({ searchResults, forecast, setSearchResults, setForecast, s
 
   return (
     <>
-      <WeatcherSearch onCitySearch={onCitySearch} />
+      <WeatcherSearch onCitySubmit={onCitySubmit} />
       {!forecast ? (
-        <div>Loading...</div>
+        <div>Loading ...</div>
       ) : (
         <div>
           {/* Current weather */}
+          <h1>This is the weather for {chosenCity.LocalizedName}</h1>
           {!likeState ? (
             <button className='like__btn' onClick={onLikeClicked}>
               Like
@@ -67,7 +69,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   setForecast,
-  setSearchResults,
   setLikesOnLoad,
   manageFavorites,
 };

@@ -27,8 +27,8 @@ export default function reducer(state = initialState, action) {
       };
     case MANAGE_FAVORITE:
       for (const index in state.favorites) {
-        if (state.favorites[index] === payload) {
-          let updatedLikes = state.favorites.filter((likedObj) => likedObj !== payload);
+        if (state.favorites[index].Key === payload.Key) {
+          let updatedLikes = state.favorites.filter((likedObj) => likedObj.Key !== payload.Key);
           localStorage.setItem('likes', JSON.stringify(updatedLikes));
           return { ...state, favorites: updatedLikes };
         }
