@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
+import Button from 'react-bootstrap/Button';
+
 import WeatcherSearch from '../weather/WeatcherSearch';
 import WeatherList from '../weather/WeatherList';
 import FavoriteCard from '../favorite/FavoriteCard';
@@ -26,11 +28,11 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites })
       let mounted = true;
       const localStorageFav = localStorage.getItem('likes');
       setLikesOnLoad();
-
       setLikeState(() => {
         return localStorageFav?.includes(chosenCity.Key);
       });
       setForecast(chosenCity.Key);
+
       if (mounted) {
         weatherService.loadCurrentData(chosenCity.Key).then((data) => {
           setCurrentCondition(data);
@@ -46,7 +48,7 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites })
   };
 
   return (
-    <>
+    <div className='container'>
       <WeatcherSearch onCitySubmit={onCitySubmit} />
       {!forecast ? (
         <div>Loading ...</div>
@@ -55,18 +57,16 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites })
           <h1>This is the weather for {chosenCity.LocalizedName}</h1>
           {currentCondition && <FavoriteCard data={currentCondition} cityName={chosenCity.LocalizedName} />}
           {!likeState ? (
-            <button className='like__btn' onClick={onLikeClicked}>
+            <Button onClick={onLikeClicked} variant='outline-success'>
               Like
-            </button>
+            </Button>
           ) : (
-            <button className='like__btn liked' onClick={onLikeClicked}>
-              Dislike
-            </button>
+            <Button onClick={onLikeClicked}>Dislike</Button>
           )}
           <WeatherList forecast={forecast} />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

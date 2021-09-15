@@ -35,8 +35,8 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} autoComplete='off'>
-      <input type='text' name='name' placeholder='Weather report at...' onChange={(e) => onChangeHandler(e.target.value)} value={query} onBlur={handleBlur} />
+    <form onSubmit={handleSubmit} autoComplete='off' className='d-flex'>
+      <input className='form-control me-2' type='text' name='name' placeholder='Weather report at...' onChange={(e) => onChangeHandler(e.target.value)} value={query} onBlur={handleBlur} />
       {suggestedLocations &&
         suggestedLocations.map((location, index) => (
           <div key={index} className='suggestion' onClick={() => onSuggest(location)}>
