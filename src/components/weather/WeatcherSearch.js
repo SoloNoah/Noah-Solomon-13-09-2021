@@ -35,14 +35,16 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} autoComplete='off' className='d-flex'>
-      <input className='form-control me-2' type='text' name='name' placeholder='Weather report at...' onChange={(e) => onChangeHandler(e.target.value)} value={query} onBlur={handleBlur} />
-      {suggestedLocations &&
-        suggestedLocations.map((location, index) => (
-          <div key={index} className='suggestion' onClick={() => onSuggest(location)}>
-            {location.LocalizedName} - {location.Country.LocalizedName}
-          </div>
-        ))}
+    <form onSubmit={handleSubmit} autoComplete='off' className='d-flex flex-column container align-items-center mb-5'>
+      <input className='form-control ' type='text' name='name' placeholder='Weather report at...' onChange={(e) => onChangeHandler(e.target.value)} value={query} onBlur={handleBlur} />
+      <div className='list-group pt-5'>
+        {suggestedLocations &&
+          suggestedLocations.map((location, index) => (
+            <div key={index} className='list-group-item' onClick={() => onSuggest(location)}>
+              {location.LocalizedName} - {location.Country.LocalizedName}
+            </div>
+          ))}
+      </div>
     </form>
   );
 };

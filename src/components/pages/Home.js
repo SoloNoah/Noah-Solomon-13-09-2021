@@ -54,15 +54,21 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites })
         <div>Loading ...</div>
       ) : (
         <div>
-          <h1>This is the weather for {chosenCity.LocalizedName}</h1>
-          {currentCondition && <FavoriteCard data={currentCondition} cityName={chosenCity.LocalizedName} />}
-          {!likeState ? (
-            <Button onClick={onLikeClicked} variant='outline-success'>
-              Like
-            </Button>
-          ) : (
-            <Button onClick={onLikeClicked}>Dislike</Button>
-          )}
+          <h1 className='mb-5 text-center'>This is the weather for {chosenCity.LocalizedName}</h1>
+          <div className='holder'>
+            {currentCondition && <FavoriteCard data={currentCondition} cityName={chosenCity.LocalizedName} />}
+            <div className='d-flex align-items-center'>
+              {!likeState ? (
+                <Button onClick={onLikeClicked} variant='success'>
+                  Add to Favorites
+                </Button>
+              ) : (
+                <Button onClick={onLikeClicked} variant='danger'>
+                  Remove Favorite
+                </Button>
+              )}
+            </div>
+          </div>
           <WeatherList forecast={forecast} />
         </div>
       )}

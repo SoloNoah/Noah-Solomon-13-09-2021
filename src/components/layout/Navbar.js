@@ -1,34 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Button from 'react-bootstrap/Button';
+import './navbar.css';
 
 const Navbar = () => {
   return (
-    <nav className='navbar navbar-expand-lg navbar-light bg-light"'>
+    <nav className='navbar navbar-expand-lg navbar-light mb-4' style={{ backgroundColor: '#e3f2fd' }}>
       <div className='container-fluid'>
-        <div className='navbar-brand'>
-          <Link to='/'>
-            <span>Whats the weather?</span>
+        <div className='navbar-brand'>What's the weather?</div>
+
+        <div className='d-flex flex-row'>
+          <Link to='/' className='p-2 link'>
+            Home
           </Link>
-        </div>
-        <button
-          className='navbar-toggler'
-          type='button'
-          data-bs-toggle='collapse'
-          data-bs-target='#navbarNavAltMarkup'
-          aria-controls='navbarNavAltMarkup'
-          aria-expanded='false'
-          aria-label='Toggle navigation'
-        >
-          <span className='navbar-toggler-icon'></span>
-        </button>
-        <div className='collapse navbar-collapse' id='navbarNavAltMarkup'>
-          <div className='navbar-nav'>
-            <Button className='nav-link active'>
-              <Link to='/favorite'>Favorite</Link>
-            </Button>
-          </div>
+          <Link to='/favorite' className='btn btn-primary p-2 link link__btn  '>
+            Favorite
+          </Link>
         </div>
       </div>
     </nav>

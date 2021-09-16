@@ -5,7 +5,7 @@ const WeatherList = ({ forecast }) => {
   const dailyForecast = forecast.DailyForecasts;
 
   return (
-    <div className='weekly-wrapper'>
+    <div className='container  pt-5 holder'>
       {dailyForecast.map((day, index) => (
         <Preview key={index} day={day} flag={index + 1} />
       ))}
