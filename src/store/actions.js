@@ -1,4 +1,4 @@
-import { SET_FORECAST, SET_SEARCH_RESULTS, SET_LIKES_ONLOAD, MANAGE_FAVORITE } from './actionTypes';
+import { SET_FORECAST, SET_SEARCH_RESULTS, SET_LIKES_ONLOAD, MANAGE_FAVORITE, SET_TEMP_UNIT } from './actionTypes';
 import weatherService from '../services/weatherService';
 import favoriteService from '../services/favoriteService';
 
@@ -47,4 +47,10 @@ export const manageFavorites = (favLocation) => (dispatch) => {
   }
 };
 
-
+export const changeTempUnit = (unit) => (dispatch) => {
+  try {
+    dispatch({ type: SET_TEMP_UNIT, payload: unit });
+  } catch (error) {
+    console.log("Couldn't change temp unit");
+  }
+};

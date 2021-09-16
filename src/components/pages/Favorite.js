@@ -29,10 +29,10 @@ const Favorite = () => {
 
   const favoriteRendering = () => {
     let render;
-    if (loading) {
+    if (favoritesData.length === 0 && loading) {
+      console.log('loading');
       render = <p className='text-center'>Loading...</p>;
-    }
-    if (favoritesData.length > 0) {
+    } else if (favoritesData.length > 0) {
       render = (
         <ul>
           {favorites.map((favId, index) => (

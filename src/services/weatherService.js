@@ -48,4 +48,8 @@ const loadCurrentData = (city) => {
   return axios.get(requestPath, { params });
 };
 
-export default { loadForecast, loadWeather, loadCurrentData };
+const convertTempToCelsius = (value) => {
+  return (5 / 9) * (value - 32);
+};
+
+export default { loadForecast, loadWeather, loadCurrentData, convertTempToCelsius };
