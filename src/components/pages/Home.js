@@ -34,9 +34,9 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites })
       setForecast(chosenCity.Key);
 
       if (mounted) {
-        weatherService.loadCurrentData(chosenCity.Key).then((data) => {
-          setCurrentCondition(data);
-        });
+        // weatherService.loadCurrentData(chosenCity.Key).then((data) => {
+        //   setCurrentCondition(data);
+        // });
       }
       return () => (mounted = false);
     }
@@ -56,7 +56,7 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites })
         <div>
           <h1 className='mb-5 text-center'>This is the weather for {chosenCity.LocalizedName}</h1>
           <div className='holder'>
-            {currentCondition && <FavoriteCard data={currentCondition} cityName={chosenCity.LocalizedName} />}
+            {/* {currentCondition && <FavoriteCard data={currentCondition} cityName={chosenCity.LocalizedName} />} */}
             <div className='d-flex align-items-center'>
               {!likeState ? (
                 <Button onClick={onLikeClicked} variant='success'>

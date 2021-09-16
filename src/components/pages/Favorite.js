@@ -30,7 +30,6 @@ const Favorite = () => {
   const favoriteRendering = () => {
     let render;
     if (favoritesData.length === 0 && loading) {
-      console.log('loading');
       render = <p className='text-center'>Loading...</p>;
     } else if (favoritesData.length > 0) {
       render = (

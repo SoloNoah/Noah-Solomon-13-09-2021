@@ -5,9 +5,19 @@ import favoriteService from '../services/favoriteService';
 export const setForecast = (value) => async (dispatch) => {
   try {
     const res = await weatherService.loadForecast(value);
+    const { DailyForecasts } = res;
+    let tempArr = [];
+    DailyForecasts.forEach((day) => {
+      let obj = {};
+      obj.K = day.Temperature.Maximum.Value;
+      let celsius = weatherService.convertTempToCelsius(obj.K);
+      obj.C = celsius.toFixed(0);
+      tempArr.push(obj);
+    });
+
     dispatch({
       type: SET_FORECAST,
-      payload: res,
+      payload: tempArr,
     });
   } catch (error) {
     console.log(error);
