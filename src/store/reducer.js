@@ -1,9 +1,10 @@
-import { SET_FORECAST, SET_SEARCH_RESULTS, SET_LIKES_ONLOAD, MANAGE_FAVORITE } from './actionTypes';
+import { SET_FORECAST, SET_SEARCH_RESULTS, SET_LIKES_ONLOAD, MANAGE_FAVORITE, SET_TEMP_UNIT } from './actionTypes';
 
 const initialState = {
   forecast: null,
   searchResults: [],
   favorites: [],
+  tempUnit: 'F',
 };
 
 export default function reducer(state = initialState, action) {
@@ -39,6 +40,8 @@ export default function reducer(state = initialState, action) {
         ...state,
         favorites: [...state.favorites, payload],
       };
+    case SET_TEMP_UNIT:
+      return { ...state, tempUnit: payload };
 
     default:
       return state;

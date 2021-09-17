@@ -1,18 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-const FavoriteCard = ({ data, cityName }) => {
-  const { Temperature, WeatherText } = data.data[0];
-  const { Value, Unit } = Temperature.Metric;
+const FavoriteCard = ({ data, chosenCity, tempUnit }) => {
+  const [temp, setTemp] = useState({});
+  const { Key, LocalizedName } = chosenCity;
+  // const { Temperature, WeatherText } = data.data[0];
+  const { Temperature, WeatherText } = data[0]; //REMOVE
+
+  useEffect(() => {
+    if (tempUnit === 'F') setTemp(Temperature.Imperial);
+    else setTemp(Temperature.Metric);
+  });
+
   return (
-    <div>
-      <h1>{cityName}</h1>
-      <h2>
-        {Value} {Unit}
-      </h2>
-      <h2>{WeatherText}</h2>
-      <hr></hr>
-    </div>
+    <Link to={`/${Key}`} style={{ textDecoration: 'none' }}>
+      <div className='card bg-dark text-white text-center p-2 w-15'>
+        <h4 className='card-title'>{LocalizedName}</h4>
+        <p className='card-text'>
+          {temp.Value} {temp.Unit}
+        </p>
+        <p className='card-text'>{WeatherText}</p>
+      </div>
+    </Link>
   );
 };
 
-export default FavoriteCard;
+const mapStateToProps = (state) => ({
+  tempUnit: state.root.tempUnit,
+});
+
+export default connect(mapStateToProps, null)(FavoriteCard);

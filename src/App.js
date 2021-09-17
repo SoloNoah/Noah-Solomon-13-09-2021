@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Navbar from './components/layout/Navbar';
 import Home from './components/pages/Home';
@@ -16,6 +17,7 @@ function App() {
         <Switch>
           <Route exact path='/' component={Home} />
           <Route exact path='/favorite' component={Favorite} />
+          <Route exact path='/:id' component={Home} />
         </Switch>
       </Router>
     </Provider>
