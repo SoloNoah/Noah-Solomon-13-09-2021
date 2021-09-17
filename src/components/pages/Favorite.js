@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import FavoriteCard from '../favorite/FavoriteCard';
+import Modal from '../modal';
 
 import weatherService from '../../services/weatherService';
 
@@ -8,6 +9,7 @@ const Favorite = () => {
   const [favorites, setFavorites] = useState([]);
   const [favoritesData, setFavoritesData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [errors, setError] = useState(null);
 
   useEffect(() => {
     const favLocations = localStorage.getItem('likes');
@@ -26,14 +28,17 @@ const Favorite = () => {
         setFavoritesData(values);
       })
       .catch((err) => {
-        console.log(err.message);
+        setError("Couldn't get details for your favorite locations");
       });
     setLoading(false);
   }, [favorites]);
 
   const favoriteRendering = () => {
     let render;
-    if (favoritesData.length === 0 && loading) {
+    if (errors) {
+      console.log('?');
+      render = <Modal msg={errors} setError={setError} />;
+    } else if (favoritesData.length === 0 && loading) {
       render = <p className='text-center'>Loading...</p>;
     } else if (favoritesData.length > 0) {
       render = (

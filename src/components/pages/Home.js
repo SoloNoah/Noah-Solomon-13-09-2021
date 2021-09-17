@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import WeatcherSearch from '../weather/WeatcherSearch';
 import WeatherList from '../weather/WeatherList';
 import FavoriteCard from '../favorite/FavoriteCard';
+import Modal from '../modal';
 
 import weatherService from '../../services/weatherService';
 
@@ -19,6 +20,7 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites, m
   const [isPending, setPending] = useState(false);
   const [forecastError, setForecastError] = useState(null);
   const [currentConditionError, setCurrentError] = useState(null);
+  
 
   const onCitySubmit = async (city) => {
     const { Key, LocalizedName } = city;
@@ -81,7 +83,7 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites, m
       <div>
         <h1 className='mb-5 text-center'>This is the weather for {chosenCity.LocalizedName}</h1>
         <div className='holder'>
-          {currentConditionError && <div>{currentConditionError}</div>}
+          {currentConditionError && <Modal msg={currentConditionError} setError={setCurrentError} city={chosenCity.LocalizedName} />}
           {currentCondition && <FavoriteCard data={currentCondition} chosenCity={chosenCity} />}
           <div className='d-flex align-items-center'>
             {!likeState ? (
@@ -95,7 +97,7 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites, m
             )}
           </div>
         </div>
-        {forecastError && <div>{forecastError}</div>}
+        {forecastError && <Modal msg={forecastError} setError={setForecastError} />}
         {forecast && <WeatherList forecast={forecast} />}
       </div>
     </div>

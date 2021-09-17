@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { setSearchResults } from '../../store/actions';
+import Modal from '../modal';
 
 import './weather.css';
 
@@ -9,7 +10,7 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
   const [query, setQuery] = useState('');
   const [suggestedLocations, setSuggestedLocations] = useState([]);
   const [chosen, setChosen] = useState();
-
+  const [error, setError] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     onCitySubmit(chosen);
@@ -22,7 +23,9 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
   };
   const onChangeHandler = async (text) => {
     if (text.length > 0) {
-      let res = await setSearchResults(text);
+      let res = await setSearchResults(text).catch((err) => {
+        setError(err.message);
+      });
       setSuggestedLocations(res);
     }
     setQuery(text);
@@ -36,6 +39,7 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
 
   return (
     <form onSubmit={handleSubmit} autoComplete='off' className='d-flex flex-column container align-items-center mb-5'>
+      {error && <Modal msg={error} setError={setError} />}
       <input className='form-control ' type='text' name='name' placeholder='Weather report at...' onChange={(e) => onChangeHandler(e.target.value)} value={query} onBlur={handleBlur} />
       <div className='list-group pt-5'>
         {suggestedLocations &&

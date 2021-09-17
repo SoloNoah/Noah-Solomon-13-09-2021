@@ -28,14 +28,17 @@ export const setForecast = (value) => async (dispatch) => {
 
 export const setSearchResults = (city) => async (dispatch) => {
   try {
-    const res = await weatherService.loadWeather(city);
+    const res = await weatherService.loadLocations(city);
+    if (res.name === 'Error') {
+      throw res;
+    }
     dispatch({
       type: SET_SEARCH_RESULTS,
       payload: res,
     });
     return res;
   } catch (err) {
-    console.log(err);
+    throw Error("Couldn't send search query to AccuWeather");
   }
 };
 

@@ -28,20 +28,22 @@ const loadForecast = async (city) => {
   }
 };
 
-const loadWeather = async (city) => {
+const loadLocations = async (city) => {
   const requestPath = BASE_URL.concat(AUTOCOMPLETE);
   const params = {
     apikey: API_KEY,
     q: city,
   };
   try {
-    // const res = await axios.get(requestPath, { params });
+    // const res = await axios.get(requestPath, { params }).catch((error) => {
+    //   throw error.toJSON();
+    // });
     // const locations = await res.data;
     const locations = [...LOCATIONS]; //remove
     const filteredData = locations.filter((location) => location.LocalizedName.includes(city));
     return filteredData;
   } catch (error) {
-    console.log(error.message); //Return error and display with toast
+    return error; //Return error and display with toast
   }
 };
 
@@ -57,4 +59,4 @@ const convertTempToCelsius = (value) => {
   return (5 / 9) * (value - 32);
 };
 
-export default { loadForecast, loadWeather, loadCurrentData, convertTempToCelsius };
+export default { loadForecast, loadLocations, loadCurrentData, convertTempToCelsius };
