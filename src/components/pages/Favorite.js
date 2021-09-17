@@ -38,8 +38,8 @@ const Favorite = () => {
     } else if (favoritesData.length > 0) {
       render = (
         <ul>
-          {favorites.map((favId, index) => (
-            <FavoriteCard key={index} data={favoritesData[index]} cityName={favId.LocalizedName} />
+          {favorites.map((favCity, index) => (
+            <FavoriteCard key={index} data={favoritesData[index]} chosenCity={favCity} />
           ))}
         </ul>
       );

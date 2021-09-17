@@ -11,7 +11,7 @@ import weatherService from '../../services/weatherService';
 
 import { manageFavorites, setForecast, setLikesOnLoad } from '../../store/actions';
 
-const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites }) => {
+const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites, match }) => {
   const defaultCity = { Key: '215854', LocalizedName: 'Tel Aviv' };
   const [chosenCity, setChosenCity] = useState(defaultCity);
   const [likeState, setLikeState] = useState();
@@ -27,7 +27,16 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites })
   };
 
   useEffect(() => {
+    if (match.params.id) {
+      let favLoctions = JSON.parse(localStorage.getItem('likes'));
+      let filteredData = favLoctions.filter((location) => location.Key === match.params.id);
+      setChosenCity(filteredData[0]);
+    }
+  }, [match]);
+
+  useEffect(() => {
     if (chosenCity !== null) {
+      let mounted = true;
       setPending(true);
       const localStorageFav = localStorage.getItem('likes');
       setLikesOnLoad();
@@ -35,25 +44,28 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites })
         return localStorageFav?.includes(chosenCity.Key);
       });
 
-      weatherService
-        .loadCurrentData(chosenCity.Key)
-        .then((data) => {
-          setCurrentCondition(data);
-          setCurrentError(null);
-        })
-        .catch((error) => {
-          setPending(false);
-          setCurrentError("Could't access AccuWeather and load current condition for ", chosenCity);
-        });
+      if (mounted) {
+        weatherService
+          .loadCurrentData(chosenCity.Key)
+          .then((data) => {
+            setCurrentCondition(data);
+            setCurrentError(null);
+          })
+          .catch((error) => {
+            setPending(false);
+            setCurrentError("Could't access AccuWeather and load current condition for ", chosenCity);
+          });
 
-      setForecast(chosenCity.Key)
-        .then(() => setForecastError(null))
-        .catch((error) => {
-          setPending(false);
-          setForecastError(error.message);
-        });
-
+        setForecast(chosenCity.Key)
+          .then(() => setForecastError(null))
+          .catch((error) => {
+            setPending(false);
+            setForecastError(error.message);
+          });
+      }
       setPending(false);
+
+      return () => (mounted = false);
     }
   }, [chosenCity, setForecast]);
 
@@ -70,7 +82,7 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites })
         <h1 className='mb-5 text-center'>This is the weather for {chosenCity.LocalizedName}</h1>
         <div className='holder'>
           {currentConditionError && <div>{currentConditionError}</div>}
-          {currentCondition && <FavoriteCard data={currentCondition} cityName={chosenCity.LocalizedName} />}
+          {currentCondition && <FavoriteCard data={currentCondition} chosenCity={chosenCity} />}
           <div className='d-flex align-items-center'>
             {!likeState ? (
               <Button onClick={onLikeClicked} variant='success'>

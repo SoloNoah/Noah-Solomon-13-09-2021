@@ -17,6 +17,7 @@ function App() {
         <Switch>
           <Route exact path='/' component={Home} />
           <Route exact path='/favorite' component={Favorite} />
+          <Route exact path='/:id' component={Home} />
         </Switch>
       </Router>
     </Provider>
