@@ -1,9 +1,11 @@
 import React from 'react';
 
+import '../../App.css';
+
 import Preview from './Preview';
 const WeatherList = ({ forecast }) => {
   return (
-    <div className='container  pt-5 holder'>
+    <div className='container pt-5 holder'>
       {forecast.map((day, index) => (
         <Preview key={index} day={day} flag={index + 1} />
       ))}

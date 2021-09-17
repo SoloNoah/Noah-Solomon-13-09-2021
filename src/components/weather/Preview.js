@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 
+import '../../App.css';
+
 const Preview = ({ day, flag, tempUnit }) => {
   const [temp, setTemp] = useState({});
   const tomorrow = new Date();

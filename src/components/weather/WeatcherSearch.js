@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { setSearchResults } from '../../store/actions';
 import Modal from '../modal';
 
-import './weather.css';
+import '../../App.css';
 
 const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
   const [query, setQuery] = useState('');
@@ -40,14 +40,24 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
   return (
     <form onSubmit={handleSubmit} autoComplete='off' className='d-flex flex-column container align-items-center mb-5'>
       {error && <Modal msg={error} setError={setError} />}
-      <input className='form-control ' type='text' name='name' placeholder='Weather report at...' onChange={(e) => onChangeHandler(e.target.value)} value={query} onBlur={handleBlur} />
-      <div className='list-group pt-5'>
-        {suggestedLocations &&
-          suggestedLocations.map((location, index) => (
-            <div key={index} className='list-group-item' onClick={() => onSuggest(location)}>
-              {location.LocalizedName} - {location.Country.LocalizedName}
-            </div>
-          ))}
+      <div className='form__input'>
+        <input
+          className='col-md-12 input form-control'
+          type='text'
+          name='name'
+          placeholder='Weather report at...'
+          onChange={(e) => onChangeHandler(e.target.value)}
+          value={query}
+          onBlur={handleBlur}
+        />
+        <div className='col-md-12 justify-content-md-center list-group '>
+          {suggestedLocations &&
+            suggestedLocations.map((location, index) => (
+              <div key={index} className='list-group-item' onClick={() => onSuggest(location)}>
+                {location.LocalizedName} - {location.Country.LocalizedName}
+              </div>
+            ))}
+        </div>
       </div>
     </form>
   );

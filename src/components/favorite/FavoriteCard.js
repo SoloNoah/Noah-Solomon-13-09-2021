@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 const FavoriteCard = ({ data, chosenCity, tempUnit }) => {
   const [temp, setTemp] = useState({});
   const { Key, LocalizedName } = chosenCity;
-  const { Temperature, WeatherText } = data.data[0];
+  // const { Temperature, WeatherText } = data.data[0];
+  const { Temperature, WeatherText } = data[0]; //REMOVE
 
   useEffect(() => {
     if (tempUnit === 'F') setTemp(Temperature.Imperial);
@@ -13,7 +14,7 @@ const FavoriteCard = ({ data, chosenCity, tempUnit }) => {
   });
 
   return (
-    <Link to={`/${Key}`}>
+    <Link to={`/${Key}`} style={{ textDecoration: 'none' }}>
       <div className='card bg-dark text-white text-center p-2 w-15'>
         <h4 className='card-title'>{LocalizedName}</h4>
         <p className='card-text'>

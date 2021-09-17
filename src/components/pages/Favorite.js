@@ -33,27 +33,22 @@ const Favorite = () => {
     setLoading(false);
   }, [favorites]);
 
-  const favoriteRendering = () => {
-    let render;
-    if (errors) {
-      console.log('?');
-      render = <Modal msg={errors} setError={setError} />;
-    } else if (favoritesData.length === 0 && loading) {
-      render = <p className='text-center'>Loading...</p>;
-    } else if (favoritesData.length > 0) {
-      render = (
-        <ul>
+  return (
+    <div className='fav__list__holder m-5'>
+      {errors && <Modal msg={errors} setError={setError} />}
+      <div className='fav__title mb-5'>
+        <h1>Your favorite locations</h1>
+      </div>
+      {favoritesData.length > 0 && (
+        <div className='grid__holder'>
           {favorites.map((favCity, index) => (
             <FavoriteCard key={index} data={favoritesData[index]} chosenCity={favCity} />
           ))}
-        </ul>
-      );
-    } else {
-      render = <h1 className='text-center'>Select locations on home page and add them to favorites</h1>;
-    }
-    return render;
-  };
-  return <div>{favoriteRendering()}</div>;
+        </div>
+      )}
+      {favoritesData.length === 0 && <h1 className='text-center'>Select locations on home page and add them to favorites</h1>}
+    </div>
+  );
 };
 
 export default Favorite;

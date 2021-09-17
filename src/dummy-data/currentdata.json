@@ -21,28 +21,5 @@
     },
     "MobileLink": "http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us",
     "Link": "http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us"
-  },
-  {
-    "LocalObservationDateTime": "2021-09-14T14:32:00+01:00",
-    "EpochTime": 1631626320,
-    "WeatherText": "Cloudy",
-    "WeatherIcon": 7,
-    "HasPrecipitation": false,
-    "PrecipitationType": null,
-    "IsDayTime": true,
-    "Temperature": {
-      "Metric": {
-        "Value": 17.8,
-        "Unit": "C",
-        "UnitType": 17
-      },
-      "Imperial": {
-        "Value": 64.0,
-        "Unit": "F",
-        "UnitType": 18
-      }
-    },
-    "MobileLink": "http://www.accuweather.com/en/gb/london/ec4a-2/current-weather/328328?lang=en-us",
-    "Link": "http://www.accuweather.com/en/gb/london/ec4a-2/current-weather/328328?lang=en-us"
   }
 ]

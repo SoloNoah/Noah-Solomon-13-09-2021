@@ -1,9 +1,11 @@
 // JSON imports
 import FIVE_DAYFORECAST_DATA from '../dummy-data/5dayforcast.json';
 import LOCATIONS from '../dummy-data/default-location.json';
+import CURRENTDATA from '../dummy-data/currentdata.json';
 
 import axios from 'axios';
 const API_KEY = 'tPldUTKSv7z2ARd48H295HMusATWIkEP';
+// const API_KEY = '6N5Cg49mSPyEJID7d3UWP7LYaRuVwSde';
 const BASE_URL = 'http://dataservice.accuweather.com/';
 const AUTOCOMPLETE = 'locations/v1/cities/autocomplete/';
 const CURRENT = 'currentconditions/v1/'; //+ location key
@@ -48,11 +50,13 @@ const loadLocations = async (city) => {
 };
 
 const loadCurrentData = (city) => {
-  const requestPath = BASE_URL.concat(CURRENT, city);
-  const params = {
-    apikey: API_KEY,
-  };
-  return axios.get(requestPath, { params });
+  // const requestPath = BASE_URL.concat(CURRENT, city);
+  // const params = {
+  //   apikey: API_KEY,
+  // };
+  // return axios.get(requestPath, { params });
+  const current = [...CURRENTDATA];
+  return current;
 };
 
 const convertTempToCelsius = (value) => {

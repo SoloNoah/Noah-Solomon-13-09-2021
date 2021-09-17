@@ -14,10 +14,11 @@ const Navbar = ({ changeTempUnit }) => {
     changeTempUnit(value);
   };
   return (
-    <nav className='navbar navbar-expand-lg navbar-light mb-4' style={{ backgroundColor: '#e3f2fd' }}>
+    <nav className='navbar navbar-expand-lg navbar-light mb-4 shadow' style={{ backgroundColor: '#e3f2fd' }}>
       <div className='container-fluid'>
-        <div className='navbar-brand'>What's the weather?</div>
-
+        <Link to='/'>
+          <img src='https://i.pinimg.com/originals/77/0b/80/770b805d5c99c7931366c2e84e88f251.png' alt='Weather-App' className='logo' />
+        </Link>
         <div className='d-flex flex-row '>
           <label className='switch'>
             <input type='checkbox' onChange={(e) => onSliderClicked(e)} />

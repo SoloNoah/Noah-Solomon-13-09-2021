@@ -20,7 +20,6 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites, m
   const [isPending, setPending] = useState(false);
   const [forecastError, setForecastError] = useState(null);
   const [currentConditionError, setCurrentError] = useState(null);
-  
 
   const onCitySubmit = async (city) => {
     const { Key, LocalizedName } = city;
@@ -47,16 +46,20 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites, m
       });
 
       if (mounted) {
-        weatherService
-          .loadCurrentData(chosenCity.Key)
-          .then((data) => {
-            setCurrentCondition(data);
-            setCurrentError(null);
-          })
-          .catch((error) => {
-            setPending(false);
-            setCurrentError("Could't access AccuWeather and load current condition for ", chosenCity);
-          });
+        // weatherService
+        //   .loadCurrentData(chosenCity.Key)
+        //   .then((data) => {
+        //     setCurrentCondition(data);
+        //     setCurrentError(null);
+        //   })
+        //   .catch((error) => {
+        //     setPending(false);
+        //     setCurrentError("Could't access AccuWeather and load current condition for ", chosenCity);
+        //   });
+
+        let currentCondition = weatherService.loadCurrentData(chosenCity.Key); //remove these 3 lines
+        setCurrentCondition(currentCondition);
+        setCurrentError(null);
 
         setForecast(chosenCity.Key)
           .then(() => setForecastError(null))
