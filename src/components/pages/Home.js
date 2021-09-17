@@ -16,6 +16,9 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites })
   const [chosenCity, setChosenCity] = useState(defaultCity);
   const [likeState, setLikeState] = useState();
   const [currentCondition, setCurrentCondition] = useState();
+  const [isPending, setPending] = useState(false);
+  const [forecastError, setForecastError] = useState(null);
+  const [currentConditionError, setCurrentError] = useState(null);
 
   const onCitySubmit = async (city) => {
     const { Key, LocalizedName } = city;
@@ -25,20 +28,32 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites })
 
   useEffect(() => {
     if (chosenCity !== null) {
-      let mounted = true;
+      setPending(true);
       const localStorageFav = localStorage.getItem('likes');
       setLikesOnLoad();
       setLikeState(() => {
         return localStorageFav?.includes(chosenCity.Key);
       });
-      setForecast(chosenCity.Key);
 
-      if (mounted) {
-        // weatherService.loadCurrentData(chosenCity.Key).then((data) => {
-        //   setCurrentCondition(data);
-        // });
-      }
-      return () => (mounted = false);
+      weatherService
+        .loadCurrentData(chosenCity.Key)
+        .then((data) => {
+          setCurrentCondition(data);
+          setCurrentError(null);
+        })
+        .catch((error) => {
+          setPending(false);
+          setCurrentError("Could't access AccuWeather and load current condition for ", chosenCity);
+        });
+
+      setForecast(chosenCity.Key)
+        .then(() => setForecastError(null))
+        .catch((error) => {
+          setPending(false);
+          setForecastError(error.message);
+        });
+
+      setPending(false);
     }
   }, [chosenCity, setForecast]);
 
@@ -50,28 +65,27 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites })
   return (
     <div className='container'>
       <WeatcherSearch onCitySubmit={onCitySubmit} />
-      {!forecast ? (
-        <div>Loading ...</div>
-      ) : (
-        <div>
-          <h1 className='mb-5 text-center'>This is the weather for {chosenCity.LocalizedName}</h1>
-          <div className='holder'>
-            {/* {currentCondition && <FavoriteCard data={currentCondition} cityName={chosenCity.LocalizedName} />} */}
-            <div className='d-flex align-items-center'>
-              {!likeState ? (
-                <Button onClick={onLikeClicked} variant='success'>
-                  Add to Favorites
-                </Button>
-              ) : (
-                <Button onClick={onLikeClicked} variant='danger'>
-                  Remove Favorite
-                </Button>
-              )}
-            </div>
+      {isPending && <div>Loading ...</div>}
+      <div>
+        <h1 className='mb-5 text-center'>This is the weather for {chosenCity.LocalizedName}</h1>
+        <div className='holder'>
+          {currentConditionError && <div>{currentConditionError}</div>}
+          {currentCondition && <FavoriteCard data={currentCondition} cityName={chosenCity.LocalizedName} />}
+          <div className='d-flex align-items-center'>
+            {!likeState ? (
+              <Button onClick={onLikeClicked} variant='success'>
+                Add to Favorites
+              </Button>
+            ) : (
+              <Button onClick={onLikeClicked} variant='danger'>
+                Remove Favorite
+              </Button>
+            )}
           </div>
-          <WeatherList forecast={forecast} />
         </div>
-      )}
+        {forecastError && <div>{forecastError}</div>}
+        {forecast && <WeatherList forecast={forecast} />}
+      </div>
     </div>
   );
 };

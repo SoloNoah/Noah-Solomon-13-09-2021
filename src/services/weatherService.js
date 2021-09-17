@@ -15,14 +15,16 @@ const loadForecast = async (city) => {
     apikey: API_KEY,
   };
   try {
-    // const res = await axios.get(requestPath, { params });
+    // const res = await axios.get(requestPath, { params }).catch((error) => {
+    //   throw error.toJSON();
+    // });
     // const data = await res.data;
     // return data;
 
     const data = [...FIVE_DAYFORECAST_DATA]; //DELETE THIS AFTERWARDS. SENDING REQUEST TO API WORKS
     return data[0]; //remove
   } catch (error) {
-    console.log(error); //Return error and display with toast
+    return error;
   }
 };
 
@@ -32,12 +34,15 @@ const loadWeather = async (city) => {
     apikey: API_KEY,
     q: city,
   };
-
-  // const res = await axios.get(requestPath, { params });
-  // const locations = await res.data;
-  const locations = [...LOCATIONS]; //remove
-  const filteredData = locations.filter((location) => location.LocalizedName.includes(city));
-  return filteredData;
+  try {
+    // const res = await axios.get(requestPath, { params });
+    // const locations = await res.data;
+    const locations = [...LOCATIONS]; //remove
+    const filteredData = locations.filter((location) => location.LocalizedName.includes(city));
+    return filteredData;
+  } catch (error) {
+    console.log(error.message); //Return error and display with toast
+  }
 };
 
 const loadCurrentData = (city) => {

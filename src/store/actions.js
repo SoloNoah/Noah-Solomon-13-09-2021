@@ -5,6 +5,9 @@ import favoriteService from '../services/favoriteService';
 export const setForecast = (value) => async (dispatch) => {
   try {
     const res = await weatherService.loadForecast(value);
+    if (res.name === 'Error') {
+      throw res;
+    }
     const { DailyForecasts } = res;
     let tempArr = [];
     DailyForecasts.forEach((day) => {
@@ -14,13 +17,12 @@ export const setForecast = (value) => async (dispatch) => {
       obj.C = celsius.toFixed(0);
       tempArr.push(obj);
     });
-
     dispatch({
       type: SET_FORECAST,
       payload: tempArr,
     });
   } catch (error) {
-    console.log(error);
+    throw Error("Could't access AccuWeather and load forecast");
   }
 };
 

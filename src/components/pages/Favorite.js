@@ -21,9 +21,13 @@ const Favorite = () => {
     favorites.forEach((favoriteLocation) => {
       promiseArray.push(weatherService.loadCurrentData(favoriteLocation.Key));
     });
-    Promise.all(promiseArray).then(function (values) {
-      setFavoritesData(values);
-    });
+    Promise.all(promiseArray)
+      .then(function (values) {
+        setFavoritesData(values);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
     setLoading(false);
   }, [favorites]);
 
