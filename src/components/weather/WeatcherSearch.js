@@ -39,7 +39,7 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} autoComplete='off' className='d-flex flex-column container align-items-center mb-5'>
+    <form autoComplete='off' className='d-flex flex-column container align-items-center mb-5'>
       {error && <Modal msg={error} setError={setError} />}
       <div className='form__input'>
         <input
@@ -51,7 +51,6 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
           value={query}
           onBlur={handleBlur}
         />
-
         <div className='col-md-12 justify-content-md-center list-group '>
           {suggestedLocations &&
             suggestedLocations.map((location, index) => (
@@ -60,6 +59,10 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
               </div>
             ))}
         </div>
+        <button className='btn btn-primary' onClick={handleSubmit}>
+          {' '}
+          Send{' '}
+        </button>
       </div>
     </form>
   );
