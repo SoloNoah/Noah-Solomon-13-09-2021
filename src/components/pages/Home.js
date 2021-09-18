@@ -46,21 +46,16 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites, m
       });
 
       if (mounted) {
-        // weatherService
-        //   .loadCurrentData(chosenCity.Key)
-        //   .then((data) => {
-        //     setCurrentCondition(data);
-        //     setCurrentError(null);
-        //   })
-        //   .catch((error) => {
-        //     setPending(false);
-        //     setCurrentError("Could't access AccuWeather and load current condition for ", chosenCity);
-        //   });
-
-        let currentCondition = weatherService.loadCurrentData(chosenCity.Key); //remove these 3 lines
-        setCurrentCondition(currentCondition);
-        setCurrentError(null);
-
+        weatherService
+          .loadCurrentData(chosenCity.Key)
+          .then((data) => {
+            setCurrentCondition(data);
+            setCurrentError(null);
+          })
+          .catch((error) => {
+            setPending(false);
+            setCurrentError("Could't access AccuWeather and load current condition for ", chosenCity);
+          });
         setForecast(chosenCity.Key)
           .then(() => setForecastError(null))
           .catch((error) => {
@@ -72,7 +67,7 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites, m
 
       return () => (mounted = false);
     }
-  }, [chosenCity, setForecast]);
+  }, [chosenCity, setForecast, setLikesOnLoad]);
 
   const onLikeClicked = () => {
     manageFavorites(chosenCity);
@@ -83,8 +78,8 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites, m
     <div className='container'>
       <WeatcherSearch onCitySubmit={onCitySubmit} />
       {isPending && <div>Loading ...</div>}
-      <div>
-        <h1 className='mb-5 text-center'>This is the weather for {chosenCity.LocalizedName}</h1>
+      <div className='main'>
+        <h1 className='title text-center'>Forecast for {chosenCity.LocalizedName}</h1>
         <div className='holder'>
           {currentConditionError && <Modal msg={currentConditionError} setError={setCurrentError} city={chosenCity.LocalizedName} />}
           {currentCondition && <FavoriteCard data={currentCondition} chosenCity={chosenCity} />}
@@ -101,6 +96,7 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites, m
           </div>
         </div>
         {forecastError && <Modal msg={forecastError} setError={setForecastError} />}
+        <hr />
         {forecast && <WeatherList forecast={forecast} />}
       </div>
     </div>

@@ -8,7 +8,6 @@ import weatherService from '../../services/weatherService';
 const Favorite = () => {
   const [favorites, setFavorites] = useState([]);
   const [favoritesData, setFavoritesData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [errors, setError] = useState(null);
 
   useEffect(() => {
@@ -18,7 +17,6 @@ const Favorite = () => {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
     let promiseArray = [];
     favorites.forEach((favoriteLocation) => {
       promiseArray.push(weatherService.loadCurrentData(favoriteLocation.Key));
@@ -30,14 +28,13 @@ const Favorite = () => {
       .catch((err) => {
         setError("Couldn't get details for your favorite locations");
       });
-    setLoading(false);
   }, [favorites]);
 
   return (
     <div className='fav__list__holder m-5'>
       {errors && <Modal msg={errors} setError={setError} />}
-      <div className='fav__title mb-5'>
-        <h1>Your favorite locations</h1>
+      <div>
+        <h1 className='title'>Your favorite locations</h1>
       </div>
       {favoritesData.length > 0 && (
         <div className='grid__holder'>

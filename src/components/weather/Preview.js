@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import '../../App.css';
 
+const ICON_URL = 'https://www.accuweather.com/images/weathericons';
+
 const Preview = ({ day, flag, tempUnit }) => {
   const [temp, setTemp] = useState({});
   const tomorrow = new Date();
@@ -12,11 +14,12 @@ const Preview = ({ day, flag, tempUnit }) => {
   });
 
   return (
-    <div className='card bg-dark text-white text-center w-15'>
-      <div className='card__text__holder'>
+    <div className='card card__holder card__hover shadow'>
+      <div className='card-body'>
         <Moment format='dddd'>{tomorrow.setDate(new Date().getDate() + flag)}</Moment>
-        {tempUnit === 'F' ? <div>{temp.K} °F</div> : <div>{temp.C} °C</div>}
+        <div>{tempUnit === 'F' ? <div>{temp.K} °F</div> : <div>{temp.C} °C</div>}</div>
       </div>
+      <img src={`${ICON_URL}/${day.icon}.svg`} alt={`${day.icon} icon`}></img>
     </div>
   );
 };
@@ -24,5 +27,4 @@ const Preview = ({ day, flag, tempUnit }) => {
 const mapStateToProps = (state) => ({
   tempUnit: state.root.tempUnit,
 });
-// export default Preview;
 export default connect(mapStateToProps, null)(Preview);

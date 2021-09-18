@@ -8,4 +8,5 @@ const getFavLocations = () => {
   } catch (error) {}
 };
 
+
 export default { getFavLocations };

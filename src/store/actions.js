@@ -15,6 +15,7 @@ export const setForecast = (value) => async (dispatch) => {
       obj.K = day.Temperature.Maximum.Value;
       let celsius = weatherService.convertTempToCelsius(obj.K);
       obj.C = celsius.toFixed(0);
+      obj.icon = day.Day.Icon;
       tempArr.push(obj);
     });
     dispatch({

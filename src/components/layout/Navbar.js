@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { Link } from 'react-router-dom';
@@ -8,9 +8,11 @@ import './navbar.css';
 import { changeTempUnit } from '../../store/actions';
 
 const Navbar = ({ changeTempUnit }) => {
+  const [unit, setUnit] = useState('F');
   const onSliderClicked = (e) => {
     let value = 'F';
     if (e.target.checked) value = 'C';
+    setUnit(value);
     changeTempUnit(value);
   };
   return (
@@ -20,10 +22,13 @@ const Navbar = ({ changeTempUnit }) => {
           <img src='https://i.pinimg.com/originals/77/0b/80/770b805d5c99c7931366c2e84e88f251.png' alt='Weather-App' className='logo' />
         </Link>
         <div className='d-flex flex-row '>
-          <label className='switch'>
-            <input type='checkbox' onChange={(e) => onSliderClicked(e)} />
-            <span className='slider round'></span>
-          </label>
+          <div className='switch__holder'>
+            <label className='switch__state'>°{unit}</label>
+            <label className='switch'>
+              <input type='checkbox' onChange={(e) => onSliderClicked(e)} />
+              <span className='slider round'></span>
+            </label>
+          </div>
           <Link to='/' className='p-2 link'>
             Home
           </Link>

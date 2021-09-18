@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { setSearchResults } from '../../store/actions';
+
 import Modal from '../modal';
 
 import '../../App.css';
@@ -50,6 +51,7 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
           value={query}
           onBlur={handleBlur}
         />
+
         <div className='col-md-12 justify-content-md-center list-group '>
           {suggestedLocations &&
             suggestedLocations.map((location, index) => (
