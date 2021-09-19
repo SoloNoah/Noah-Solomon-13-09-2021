@@ -10,7 +10,7 @@ import '../../App.css';
 const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
   const [query, setQuery] = useState('');
   const [suggestedLocations, setSuggestedLocations] = useState([]);
-  const [chosen, setChosen] = useState();
+  const [chosen, setChosen] = useState(null);
   const [error, setError] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,13 +23,17 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
     setSuggestedLocations([]);
   };
   const onChangeHandler = async (text) => {
-    if (text.length > 0) {
+    if (/^[a-zA-Z]+$/.test(text)) {
+      setQuery(text);
       let res = await setSearchResults(text).catch((err) => {
         setError(err.message);
       });
       setSuggestedLocations(res);
     }
-    setQuery(text);
+    if (text.length === 0) {
+      setQuery('');
+      setChosen(null);
+    }
   };
 
   const handleBlur = () => {
@@ -59,10 +63,15 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
               </div>
             ))}
         </div>
-        <button className='btn btn-primary' onClick={handleSubmit}>
-          {' '}
-          Send{' '}
-        </button>
+        {chosen !== null ? (
+          <button className='btn btn-primary' onClick={handleSubmit}>
+            Send
+          </button>
+        ) : (
+          <button className='btn btn-primary disabled' onClick={handleSubmit}>
+            Send
+          </button>
+        )}
       </div>
     </form>
   );

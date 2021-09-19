@@ -27,7 +27,6 @@ const loadLocations = async (city) => {
     apikey: API_KEY,
     q: city,
   };
-
   try {
     const res = await axios.get(requestPath, { params }).catch((error) => {
       throw error.toJSON();
