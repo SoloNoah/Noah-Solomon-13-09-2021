@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_KEY = 'UeHq6AizQRqtBWrHByw4yAF2TY5X6Trt';
+const API_KEY = '6N5Cg49mSPyEJID7d3UWP7LYaRuVwSde';
 const BASE_URL = 'https://dataservice.accuweather.com/';
 let params = {
   apikey: API_KEY,

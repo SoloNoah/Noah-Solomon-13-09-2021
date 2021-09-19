@@ -5,8 +5,9 @@ const getFavLocations = () => {
     }
     const parsedLikes = JSON.parse(localStorage.getItem('likes'));
     return parsedLikes;
-  } catch (error) {}
+  } catch (error) {
+    return Error("Couldn't get Favorite locations.");
+  }
 };
-
 
 export default { getFavLocations };

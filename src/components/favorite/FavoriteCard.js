@@ -8,12 +8,12 @@ const FavoriteCard = ({ data, chosenCity, tempUnit }) => {
   const [temp, setTemp] = useState({});
   const { Key, LocalizedName } = chosenCity;
   const { Temperature, WeatherText, WeatherIcon } = data.data[0];
-  // const { Temperature, WeatherText, WeatherIcon } = data[0]; //REMOVE
 
   useEffect(() => {
     if (tempUnit === 'F') setTemp(Temperature.Imperial);
     else setTemp(Temperature.Metric);
   });
+  
   return (
     <Link to={`/${Key}`} style={{ textDecoration: 'none' }}>
       <div className='card  card__hover text-center shadow'>

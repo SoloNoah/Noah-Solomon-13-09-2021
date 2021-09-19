@@ -1,9 +1,9 @@
 .modal__bg {
   min-width: 100vw;
-  min-width: -webkit-fill-available;
   min-height: 100vh;
   min-height: -webkit-fill-available;
   top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;

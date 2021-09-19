@@ -51,7 +51,7 @@ export const setLikesOnLoad = () => (dispatch) => {
       payload: likedLocation,
     });
   } catch (error) {
-    console.log(error);
+    throw Error(error);
   }
 };
 
@@ -59,7 +59,7 @@ export const manageFavorites = (favLocation) => (dispatch) => {
   try {
     dispatch({ type: MANAGE_FAVORITE, payload: favLocation });
   } catch (error) {
-    console.log("Couldn't set like for location");
+    throw Error("Couldn't set like for location");
   }
 };
 
@@ -67,6 +67,6 @@ export const changeTempUnit = (unit) => (dispatch) => {
   try {
     dispatch({ type: SET_TEMP_UNIT, payload: unit });
   } catch (error) {
-    console.log("Couldn't change temp unit");
+    throw Error("Couldn't change temp unit");
   }
 };
