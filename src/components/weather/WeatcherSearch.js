@@ -12,6 +12,7 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
   const [suggestedLocations, setSuggestedLocations] = useState([]);
   const [chosen, setChosen] = useState(null);
   const [error, setError] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     onCitySubmit(chosen);
@@ -23,12 +24,18 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
     setSuggestedLocations([]);
   };
   const onChangeHandler = async (text) => {
-    if (/^[a-zA-Z]+$/.test(text)) {
+    if (/^[a-zA-Z\s]+$/.test(text)) {
       setQuery(text);
       let res = await setSearchResults(text).catch((err) => {
         setError(err.message);
       });
-      setSuggestedLocations(res);
+      if (res) {
+        setChosen(res[0]);
+        setSuggestedLocations(res);
+      } else {
+        setChosen(null);
+        setSuggestedLocations([]);
+      }
     }
     if (text.length === 0) {
       setQuery('');

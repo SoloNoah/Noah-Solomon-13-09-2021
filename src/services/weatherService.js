@@ -1,5 +1,8 @@
+import LOCATIONS from '../dummy-data/default-location.json';
+import FIVE_DAYFORECAST_DATA from '../dummy-data/5dayforcast.json';
+
 import axios from 'axios';
-const API_KEY = 'nfsuzcG6OEIoo0yHgrJOov5w6Rn3C9Ak';
+const API_KEY = 'tPldUTKSv7z2ARd48H295HMusATWIkEP';
 const BASE_URL = 'https://dataservice.accuweather.com/';
 let params = {
   apikey: API_KEY,
@@ -28,10 +31,11 @@ const loadLocations = async (city) => {
     q: city,
   };
   try {
-    const res = await axios.get(requestPath, { params }).catch((error) => {
-      throw error.toJSON();
-    });
-    const locations = await res.data;
+    // const res = await axios.get(requestPath, { params }).catch((error) => {
+    //   throw error.toJSON();
+    // });
+    // const locations = await res.data;
+    const locations = [...LOCATIONS];
     const filteredData = locations.filter((location) => location.LocalizedName.includes(city));
     return filteredData;
   } catch (error) {
