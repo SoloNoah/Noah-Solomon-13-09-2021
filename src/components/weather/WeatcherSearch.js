@@ -12,9 +12,12 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
   const [suggestedLocations, setSuggestedLocations] = useState([]);
   const [chosen, setChosen] = useState(null);
   const [error, setError] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSuggestedLocations([]);
+    setShowSuggestions(false);
     onCitySubmit(chosen);
   };
 
@@ -22,6 +25,7 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
     setQuery(city.LocalizedName);
     setChosen(city);
     setSuggestedLocations([]);
+    setShowSuggestions(false);
   };
   const onChangeHandler = async (text) => {
     if (/^[a-zA-Z\s]+$/.test(text)) {
@@ -30,40 +34,29 @@ const WeatcherSearch = ({ onCitySubmit, setSearchResults }) => {
         setError(err.message);
       });
       if (res) {
-        setChosen(res[0]);
         setSuggestedLocations(res);
+        setShowSuggestions(true);
+        setChosen(res[0]);
       } else {
-        setChosen(null);
         setSuggestedLocations([]);
+        setChosen(null);
+        setShowSuggestions(false);
       }
     }
     if (text.length === 0) {
       setQuery('');
       setChosen(null);
-    }
-  };
-
-  const handleBlur = () => {
-    setTimeout(() => {
       setSuggestedLocations([]);
-    }, 100);
+    }
   };
 
   return (
     <form autoComplete='off' className='d-flex flex-column container align-items-center mb-5'>
       {error && <Modal msg={error} setError={setError} />}
       <div className='form__input'>
-        <input
-          className='col-md-12 input form-control'
-          type='text'
-          name='name'
-          placeholder='Weather report at...'
-          onChange={(e) => onChangeHandler(e.target.value)}
-          value={query}
-          onBlur={handleBlur}
-        />
+        <input className='col-md-12 input form-control' type='text' name='name' placeholder='Weather report at...' onChange={(e) => onChangeHandler(e.target.value)} value={query} />
         <div className='col-md-12 justify-content-md-center list-group '>
-          {suggestedLocations &&
+          {showSuggestions &&
             suggestedLocations.map((location, index) => (
               <div key={index} className='list-group-item' onClick={() => onSuggest(location)}>
                 {location.LocalizedName} - {location.Country.LocalizedName}
