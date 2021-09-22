@@ -18,13 +18,19 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites, m
   const [likeState, setLikeState] = useState();
   const [currentCondition, setCurrentCondition] = useState();
   const [isPending, setPending] = useState(false);
-  const [forecastError, setForecastError] = useState(null);
-  const [currentConditionError, setCurrentError] = useState(null);
+  const [forecastError, setForecastError] = useState(false);
+  const [currentConditionError, setCurrentError] = useState(false);
+  const [badQuery, setBadQuery] = useState(false);
 
   const onCitySubmit = async (city) => {
-    const { Key, LocalizedName } = city;
-    const newStateCity = { Key, LocalizedName };
-    setChosenCity(newStateCity);
+    if (city !== undefined) {
+      const { Key, LocalizedName } = city;
+      const newStateCity = { Key, LocalizedName };
+      setChosenCity(newStateCity);
+    } else {
+      setBadQuery(true);
+      setChosenCity(null);
+    }
   };
 
   useEffect(() => {
@@ -37,6 +43,7 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites, m
 
   useEffect(() => {
     if (chosenCity !== null) {
+      setBadQuery(false);
       let mounted = true;
       setPending(true);
       const localStorageFav = localStorage.getItem('likes');
@@ -64,7 +71,6 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites, m
           });
       }
       setPending(false);
-
       return () => (mounted = false);
     }
   }, [chosenCity, setForecast, setLikesOnLoad]);
@@ -78,27 +84,30 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites, m
     <div className='container'>
       <WeatcherSearch onCitySubmit={onCitySubmit} />
       {isPending && <div>Loading ...</div>}
-      <div className='main'>
-        <h1 className='title text-center'>Forecast for {chosenCity.LocalizedName}</h1>
-        <div className='holder'>
-          {currentConditionError && <Modal msg={currentConditionError} setError={setCurrentError} city={chosenCity.LocalizedName} />}
-          {currentCondition && <FavoriteCard data={currentCondition} chosenCity={chosenCity} />}
-          <div className='d-flex align-items-center'>
-            {!likeState ? (
-              <Button onClick={onLikeClicked} variant='success'>
-                Add to Favorites
-              </Button>
-            ) : (
-              <Button onClick={onLikeClicked} variant='danger'>
-                Remove Favorite
-              </Button>
-            )}
+      {badQuery && <div className='main '>Enter a valid city name.</div>}
+      {!badQuery && (
+        <div className='main'>
+          <h1 className='title text-center'>Forecast for {chosenCity.LocalizedName}</h1>
+          <div className='holder'>
+            {currentConditionError && <Modal msg={currentConditionError} setError={setCurrentError} city={chosenCity.LocalizedName} />}
+            {currentCondition && <FavoriteCard data={currentCondition} chosenCity={chosenCity} />}
+            <div className='d-flex align-items-center'>
+              {!likeState ? (
+                <Button onClick={onLikeClicked} variant='success'>
+                  Add to Favorites
+                </Button>
+              ) : (
+                <Button onClick={onLikeClicked} variant='danger'>
+                  Remove Favorite
+                </Button>
+              )}
+            </div>
           </div>
+          {forecastError && <Modal msg={forecastError} setError={setForecastError} />}
+          <hr />
+          {forecast && <WeatherList forecast={forecast} />}
         </div>
-        {forecastError && <Modal msg={forecastError} setError={setForecastError} />}
-        <hr />
-        {forecast && <WeatherList forecast={forecast} />}
-      </div>
+      )}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import React from 'react';
 import './modal.css';
 const Modal = ({ msg, setError, city = '' }) => {
   const clickHandle = () => {
-    setError(null);
+    setError(false);
   };
   return (
     <div className='modal__bg'>

@@ -102,7 +102,9 @@ body {
   z-index: 10;
   cursor: pointer;
 }
-
+.list-group-item {
+  outline: var(--gray);
+}
 .list-group-item:hover {
   background-color: var(--item-hover);
 }
