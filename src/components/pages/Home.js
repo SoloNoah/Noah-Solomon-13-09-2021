@@ -53,22 +53,22 @@ const WeatherMain = ({ forecast, setForecast, setLikesOnLoad, manageFavorites, m
       });
 
       if (mounted) {
-        // weatherService
-        //   .loadCurrentData(chosenCity.Key)
-        //   .then((data) => {
-        //     setCurrentCondition(data);
-        //     setCurrentError(null);
-        //   })
-        //   .catch((error) => {
-        //     setPending(false);
-        //     setCurrentError("Could't access AccuWeather and load current condition for ", chosenCity);
-        //   });
-        // setForecast(chosenCity.Key)
-        //   .then(() => setForecastError(null))
-        //   .catch((error) => {
-        //     setPending(false);
-        //     setForecastError(error.message);
-        //   });
+        weatherService
+          .loadCurrentData(chosenCity.Key)
+          .then((data) => {
+            setCurrentCondition(data);
+            setCurrentError(null);
+          })
+          .catch((error) => {
+            setPending(false);
+            setCurrentError("Could't access AccuWeather and load current condition for ", chosenCity);
+          });
+        setForecast(chosenCity.Key)
+          .then(() => setForecastError(null))
+          .catch((error) => {
+            setPending(false);
+            setForecastError(error.message);
+          });
       }
       setPending(false);
       return () => (mounted = false);
